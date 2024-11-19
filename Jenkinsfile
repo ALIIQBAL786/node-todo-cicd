@@ -12,25 +12,25 @@ pipeline{
         stage("Code"){
             steps{
                 script{
-                clone("https://github.com/ALIIQBAL786/")
+                clone("https://github.com/ALIIQBAL786/node-todo-cicd.git","main")
                 }
             }
         }
-        stage("Push To DockerHub"){
+        stage("Build"){
             steps{
-                withCredentials([usernamePassword(
-                    credentialsId:"dockerHubCreds",
-                    usernameVariable:"dockerHubUser", 
-                    passwordVariable:"dockerHubPass")]){
-                sh 'echo $dockerHubPass | docker login -u $dockerHubUser --password-stdin'
-                sh "docker image tag node-app:latest ${env.dockerHubUser}/node-app:latest"
-                sh "docker push ${env.dockerHubUser}/node-app:latest"
-                }
+            script{
+                docker_build("notes-app","latest","aliiqbal003")
+            }
+        }
+        stage("Push to DockerHub"){
+            steps{
+            script{
+                docker_push("notes-app","latest","aliiqbal003")
             }
         }
         stage("Deploy"){
             steps{
-                sh "docker compose down && docker compose up -d --build"
+                deploy()
             }
         }
     }
