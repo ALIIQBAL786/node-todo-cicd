@@ -1,17 +1,19 @@
+@Library("Hello")
 pipeline{
     agent { label 'vinod' }
     
     stages{
-        stage("Code Clone"){
+        stage("Hello"){
             steps{
-                echo "Code Clone Stage"
-                git url: "https://github.com/ALIIQBAL786/node-todo-cicd.git", branch: "master"
+                script{
+                    hello()
             }
         }
-        stage("Code Build & Test"){
+        stage("Code"){
             steps{
-                echo "Code Build Stage"
-                sh "docker build -t node-app ."
+                script{
+                clone("https://github.com/ALIIQBAL786/")
+                }
             }
         }
         stage("Push To DockerHub"){
