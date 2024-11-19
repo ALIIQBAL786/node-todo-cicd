@@ -1,5 +1,5 @@
 pipeline{
-    agent { label 'dev-server' }
+    agent { label 'vinod' }
     
     stages{
         stage("Code Clone"){
