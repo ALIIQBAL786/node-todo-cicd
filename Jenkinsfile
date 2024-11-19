@@ -1,36 +1,41 @@
 @Library("Hello") _
-pipeline{
+pipeline {
     agent { label 'vinod' }
     
-    stages{
-        stage("Hello"){
-            steps{
-                script{
+    stages {
+        stage("Hello") {
+            steps {
+                script {
                     hello()
-            }
-        }
-        stage("Code"){
-            steps{
-                script{
-                clone("https://github.com/ALIIQBAL786/node-todo-cicd.git","main")
                 }
             }
         }
-        stage("Build"){
-            steps{
-            script{
-                docker_build("notes-app","latest","aliiqbal003")
+        stage("Code") {
+            steps {
+                script {
+                    clone("https://github.com/ALIIQBAL786/node-todo-cicd.git", "main")
+                }
             }
         }
-        stage("Push to DockerHub"){
-            steps{
-            script{
-                docker_push("notes-app","latest","aliiqbal003")
+        stage("Build") {
+            steps {
+                script {
+                    docker_build("notes-app", "latest", "aliiqbal003")
+                }
             }
         }
-        stage("Deploy"){
-            steps{
-                deploy()
+        stage("Push to DockerHub") {
+            steps {
+                script {
+                    docker_push("notes-app", "latest", "aliiqbal003")
+                }
+            }
+        }
+        stage("Deploy") {
+            steps {
+                script {
+                    deploy()
+                }
             }
         }
     }
