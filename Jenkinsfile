@@ -20,7 +20,7 @@ pipeline {
         stage("Build") {
             steps {
                 script {
-                    docker_build("notes-app", "latest", "aliiqbal003")
+                    build("notes-app", "latest", "aliiqbal003")
                 }
             }
         }
